@@ -8,7 +8,7 @@ interface ModalNavBarProps {
 export default function ModalNavBar({ setModalOpened }: ModalNavBarProps) {
   return (
     <div className="bg-purple-300 text-white p-2  sticky top-0 z-50">
-      <ul className="modal-navbar flex  items-center justify-between">
+      <ul className="modal-navbar flex  items-center justify-between gap-2 ">
         {MODALCATS.map((cat) => {
           return (
             <li
@@ -19,6 +19,7 @@ export default function ModalNavBar({ setModalOpened }: ModalNavBarProps) {
                   modalTypeSelected: cat.userOpt,
                 })
               }
+              className="flex w-full items-center justify-center bg-purple-600 rounded-xl p-2 hover:bg-purple-900 transition-colors cursor-pointer"
             >
               {cat.name}
             </li>

@@ -1,15 +1,21 @@
+import { ProjectionsProvider } from "./contexts/ProjectionContext";
 import { FinancialProvider } from "./contexts/useFinancialData";
+import { YearProjectionProvider } from "./contexts/YearProjectionDetailsContext";
 import Layout from "./Layout";
 import Home from "./pages/Home";
 
 function App() {
   return (
     <FinancialProvider>
-      <div>
-        <Layout>
-          <Home />
-        </Layout>
-      </div>
+      <ProjectionsProvider>
+        <YearProjectionProvider>
+          <div>
+            <Layout>
+              <Home />
+            </Layout>
+          </div>
+        </YearProjectionProvider>
+      </ProjectionsProvider>
     </FinancialProvider>
   );
 }

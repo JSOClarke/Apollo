@@ -35,7 +35,7 @@ export default function EditAsset() {
               <div
                 key={i.id}
                 onClick={() => setNewSelectedObject(i)}
-                className="bg-gray-200 p-4 flex-col items-center justify-center"
+                className="bg-gray-200 p-4 flex-col items-center justify-center rounded-xl"
               >
                 <div className="name">{i.name}</div>
                 <div className="amount">{i.amount}</div>
@@ -70,7 +70,10 @@ export default function EditAsset() {
               <label>Amount</label>
               <input
                 className="modal-input"
-                {...register("amount", { required: "Amount is Required" })}
+                {...register("amount", {
+                  required: "Amount is Required",
+                  valueAsNumber: true,
+                })}
               />
             </div>
             <div className="modal-form-container">
@@ -84,6 +87,7 @@ export default function EditAsset() {
                   className="modal-input"
                   {...register("growthRate", {
                     required: "Frequency is Required",
+                    valueAsNumber: true,
                   })}
                 />
               </div>
@@ -95,6 +99,7 @@ export default function EditAsset() {
                   className="modal-input"
                   {...register("yieldRate", {
                     required: "Start Year is Required",
+                    valueAsNumber: true,
                   })}
                 />
               </div>

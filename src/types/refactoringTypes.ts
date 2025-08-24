@@ -88,7 +88,7 @@ export type PassiveIncomeHistory = {
 };
 
 // Yearly projection data
-export type YearlyProjection = {
+export type YearlyProjectionData = {
   year: number;
   incomeBreakdown: Incomes[];
   expenseBreakdown: Expenses[];

@@ -1,4 +1,4 @@
-import type { UserData } from "../types/refactoringTypes";
+import type { UserData, Priority } from "../types/refactoringTypes";
 
 export const User: UserData = {
   incomes: [
@@ -7,14 +7,6 @@ export const User: UserData = {
       amount: 14000,
       frequency: "annual",
       id: 1,
-      startYear: 2025,
-      endYear: 2065,
-    },
-    {
-      name: "BD",
-      amount: 14000,
-      frequency: "annual",
-      id: 2,
       startYear: 2025,
       endYear: 2065,
     },
@@ -40,12 +32,19 @@ export const User: UserData = {
   assets: [
     {
       name: "Stocks",
-      amount: 40000,
+      amount: 30000,
       type: "investment",
-      growthRate: 0.07,
+      growthRate: 0.04,
       id: 1,
     },
-    { name: "Savings", amount: 30000, type: "cash", id: 2, yieldRate: 0.02 },
+    {
+      name: "Pension",
+      amount: 8000,
+      type: "investment",
+      growthRate: 0.04,
+      id: 2,
+    },
+    { name: "Savings", amount: 30000, type: "cash", id: 3, yieldRate: 0.035 },
   ],
   liabilities: [
     {
@@ -58,3 +57,6 @@ export const User: UserData = {
     },
   ],
 };
+
+export const deficitPriority: Priority[] = [{ assetId: 2 }, { assetId: 1 }]; // savings first then stocks
+export const surplusPriority: Priority[] = [{ assetId: 1 }, { assetId: 2 }]; // stocks first then savings

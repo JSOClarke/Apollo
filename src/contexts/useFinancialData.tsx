@@ -96,6 +96,7 @@ export function FinancialProvider({ children }: FinancialProviderProps) {
       name: "New Liability",
       amount: 0,
       interestRate: 0,
+      annualRepayment: 0,
     };
     setLiabilities((prev) => [...prev, newLiability]);
     return newLiability;

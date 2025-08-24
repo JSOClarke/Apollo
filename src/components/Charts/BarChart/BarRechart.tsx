@@ -6,25 +6,25 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  type TooltipContentProps,
 } from "recharts";
 
-interface ReChartProps {
-  yearlyProjectionData: YearlyProjection[];
-  setYearSelected: (year: number) => void;
-  yearSelected: number;
-}
+import type {
+  YearlyProjectionData,
+  FlattenedYearlyProjection,
+} from "../../../types/refactoringTypes";
+import { useProjection } from "../../../contexts/ProjectionContext";
+import { useYearProjectionDetails } from "../../../contexts/YearProjectionDetailsContext";
+import CustomChartToolTip from "./customToolTip/CustomChartToolTip";
+import { chartConstants } from "../../../constants/chartConstants";
 
-export default function ReChart({
-  yearlyProjectionData,
-  setYearSelected,
-  yearSelected,
-}: ReChartProps) {
+export default function BarRechart() {
+  const { setYearSelected } = useYearProjectionDetails();
+  const projectionData = useProjection();
   const barRadius: [number, number, number, number] = [5, 5, 0, 0];
 
-  console.log("chartData", yearlyProjectionData);
-
-  const flattenedData: FlattenedYearlyProjection[] = yearlyProjectionData.map(
-    (y: YearlyProjection) => ({
+  const flattenedData: FlattenedYearlyProjection[] = projectionData.map(
+    (y: YearlyProjectionData) => ({
       year: y.year,
       totalIncome: y.incomeBreakdown.reduce((sum, i) => sum + i.amount, 0),
       totalExpenses: y.expenseBreakdown.reduce((sum, i) => sum + i.amount, 0),
@@ -38,12 +38,12 @@ export default function ReChart({
     })
   );
 
-  const handleBarClick = (data: YearlyProjection) => {
+  const handleBarClick = (data: YearlyProjectionData) => {
     setYearSelected(data.year);
   };
 
   return (
-    <ResponsiveContainer width={400} height={200}>
+    <ResponsiveContainer width={"100%"} height={"100%"}>
       <BarChart
         data={flattenedData}
         barGap={0}
@@ -55,10 +55,15 @@ export default function ReChart({
           width={100}
           tickFormatter={(value: number) => `£${value.toLocaleString("en-GB")}`}
         />
-        <Tooltip />
+        <Tooltip
+          cursor={false}
+          content={(props: TooltipContentProps<number, string>) => (
+            <CustomChartToolTip {...props} />
+          )}
+        />{" "}
         <Bar
           dataKey="totalAssets"
-          fill={"red"}
+          fill={chartConstants[2].color}
           barSize={30}
           stackId={"a"}
           onClick={handleBarClick}

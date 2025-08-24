@@ -7,3 +7,8 @@
 .modal-form-container {
   @apply flex-col w-full gap-4;
 }
+
+.recharts-wrapper:focus,
+.recharts-wrapper *:focus {
+  outline: none;
+}
