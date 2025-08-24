@@ -1,4 +1,4 @@
-import { User } from "../../../MockData/mockUserInformation";
+import { useFinancialData } from "../../../contexts/useFinancialData";
 import type { ModalOpenType } from "../../../types/types";
 
 interface SelectorModalProps {
@@ -12,7 +12,9 @@ export default function SelectorModal({
 }: SelectorModalProps) {
   console.log("modalopened", modalOpened.modalTypeSelected);
 
-  const selectionArray = User[modalOpened.modalTypeSelected];
+  const UserFData = useFinancialData();
+  const selectionArray = UserFData[modalOpened.modalTypeSelected];
+
   return (
     <div className="selector-container bg-white  rounded-xl p-4 flex ">
       <div className="title flex-col items-center justify-center bg-purple-300 text-white rounded-xl p-2">

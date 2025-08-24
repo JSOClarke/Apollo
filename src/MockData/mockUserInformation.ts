@@ -10,6 +10,14 @@ export const User: UserData = {
       startYear: 2025,
       endYear: 2065,
     },
+    {
+      name: "BD",
+      amount: 14000,
+      frequency: "annual",
+      id: 2,
+      startYear: 2025,
+      endYear: 2065,
+    },
   ],
   expenses: [
     {
@@ -32,7 +40,7 @@ export const User: UserData = {
   assets: [
     {
       name: "Stocks",
-      amount: 30000,
+      amount: 40000,
       type: "investment",
       growthRate: 0.07,
       id: 1,

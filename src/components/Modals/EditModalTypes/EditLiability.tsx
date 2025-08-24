@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import EditLayout from "./EditLayout";
 import { User } from "../../../MockData/mockUserInformation";
 import type { Liability } from "../../../types/refactoringTypes";
+import { useEffect } from "react";
 
 interface EditLiabilityProps {
   selectedObject: Liability;
@@ -10,10 +11,13 @@ interface EditLiabilityProps {
 export default function EditLiabilities({
   selectedObject,
 }: EditLiabilityProps) {
-  const { register } = useForm<Liability>({
-    defaultValues: { ...selectedObject },
+  const { register, reset } = useForm<Liability>({
+    defaultValues: selectedObject,
   });
   console.log("selectedObject", selectedObject);
+  useEffect(() => {
+    reset(selectedObject);
+  }, [selectedObject, reset]);
 
   return (
     <EditLayout>
