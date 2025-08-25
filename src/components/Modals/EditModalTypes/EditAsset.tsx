@@ -5,53 +5,45 @@ import { User } from "../../../MockData/mockUserInformation";
 import { useState } from "react";
 import type { Asset } from "../../../types/refactoringTypes";
 import { useFinancialData } from "../../../contexts/useFinancialData";
+import SelectorModal from "../SelectorModal/SelectorModal";
+import { useModal } from "../../../contexts/ModalContext";
 
 export default function EditAsset() {
   const [newSelectedObject, setNewSelectedObject] = useState<Asset | undefined>(
     undefined
   );
+  const { closeModal } = useModal();
   const { assets, addAsset, updateAsset } = useFinancialData();
-  const { register, reset, handleSubmit } = useForm<Asset>({
-    defaultValues: newSelectedObject,
+  const { register, reset, handleSubmit, watch } = useForm<Asset>({
+    defaultValues: { growthRate: 0.0, yieldRate: 0.0, ...newSelectedObject },
   });
   const onSubmit = (formData: Asset) => {
-    const updatedIncome = { ...formData, id: newSelectedObject.id };
-    updateAsset(updatedIncome);
+    const updatedAsset = { ...formData, id: newSelectedObject.id };
+    updateAsset(updatedAsset);
   };
   console.log("selectedObject", newSelectedObject);
   useEffect(() => {
-    reset(newSelectedObject);
+    if (newSelectedObject) {
+      reset({
+        growthRate: 0,
+        yieldRate: 0,
+        ...newSelectedObject,
+      });
+    }
   }, [newSelectedObject, reset]);
+
+  const watchedtype = watch("type");
+
+  console.log("watchedtype", watchedtype);
 
   return (
     <div>
-      <div className="selector bg-white rounded-xl p-4">
-        <div className="title border-b border-gray-200 flex items-center justify-center">
-          Assets
-        </div>
-        <div className="mapped-items flex gap-2 p-2">
-          {assets.map((i) => {
-            return (
-              <div
-                key={i.id}
-                onClick={() => setNewSelectedObject(i)}
-                className="bg-gray-200 p-4 flex-col items-center justify-center rounded-xl"
-              >
-                <div className="name">{i.name}</div>
-                <div className="amount">{i.amount}</div>
-                <div className="frequency">{i.growthRate}</div>
-              </div>
-            );
-          })}
-          <button
-            type="button"
-            className="bg-blue-200 p-2 rounded-xl"
-            onClick={() => setNewSelectedObject(addAsset())}
-          >
-            Add Income +{" "}
-          </button>
-        </div>
-      </div>
+      <SelectorModal
+        title="Assets"
+        modalType="asset"
+        setNewSelectedObject={setNewSelectedObject}
+      />
+
       {newSelectedObject && (
         <EditLayout>
           <form
@@ -78,21 +70,29 @@ export default function EditAsset() {
             </div>
             <div className="modal-form-container">
               <label>Type</label>
-              <input className="modal-input" {...register("type")} />
+              <select
+                id="type"
+                className="modal-select-input"
+                {...register("type")}
+              >
+                <option value="investment">Investment</option>
+                <option value="cash">Cash</option>
+                <option value="property">Property</option>
+              </select>
             </div>
-            {newSelectedObject.type === "investment" && (
+            {(watchedtype === "investment" || watchedtype === "property") && (
               <div className="modal-form-container">
                 <label>Growth Rate</label>
                 <input
                   className="modal-input"
                   {...register("growthRate", {
-                    required: "Frequency is Required",
+                    required: "growth rate is Required",
                     valueAsNumber: true,
                   })}
                 />
               </div>
             )}
-            {newSelectedObject.type === "cash" && (
+            {watchedtype === "cash" && (
               <div className="modal-form-container">
                 <label>Yield Rate</label>
                 <input
@@ -104,7 +104,17 @@ export default function EditAsset() {
                 />
               </div>
             )}
-            <button type="submit">Save</button>
+            <div className="flex items-center justify-between">
+              <button
+                className="modal-exit-button"
+                onClick={() => closeModal()}
+              >
+                Exit
+              </button>
+              <button type="submit" className="modal-save-button">
+                Save
+              </button>
+            </div>
           </form>
         </EditLayout>
       )}

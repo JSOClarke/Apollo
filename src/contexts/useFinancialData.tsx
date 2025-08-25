@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, type ReactNode, useContext, useState } from "react";
 import { User } from "../MockData/mockUserInformation";
 
 import type {
@@ -16,6 +16,9 @@ interface FinancialContextType {
   updateIncome: (income: Incomes) => void;
   addIncome: () => Incomes;
   removeIncome: (id: number) => void;
+  removeLiability: (id: number) => void;
+  removeExpense: (id: number) => void;
+  removeAsset: (id: number) => void;
   updateExpense: (expense: Expenses) => void;
   addExpense: () => Expenses;
   updateLiability: (liability: Liability) => void;
@@ -51,7 +54,7 @@ export function FinancialProvider({ children }: FinancialProviderProps) {
     const newIncome: Incomes = {
       id: Date.now(),
       name: "New Income",
-      amount: 0,
+      amount: 100,
       startYear: 2025,
       endYear: 2025,
       frequency: "annual",
@@ -77,7 +80,7 @@ export function FinancialProvider({ children }: FinancialProviderProps) {
     const newExpense: Expenses = {
       id: Date.now(),
       name: "New Expense",
-      amount: 0,
+      amount: 100,
       startYear: 2025,
       endYear: 2025,
       frequency: "annual",
@@ -86,6 +89,9 @@ export function FinancialProvider({ children }: FinancialProviderProps) {
     return newExpense;
   };
 
+  const removeExpense = (id: number) => {
+    setExpenses((prev) => prev.filter((i) => i.id !== id));
+  };
   // --- Liabilities ---
   const updateLiability = (updatedLiability: Liability) => {
     setLiabilities((prev) =>
@@ -99,12 +105,16 @@ export function FinancialProvider({ children }: FinancialProviderProps) {
     const newLiability: Liability = {
       id: Date.now(),
       name: "New Liability",
-      amount: 0,
+      amount: 100,
       interestRate: 0,
       annualRepayment: 0,
     };
     setLiabilities((prev) => [...prev, newLiability]);
     return newLiability;
+  };
+
+  const removeLiability = (id: number) => {
+    setLiabilities((prev) => prev.filter((i) => i.id !== id));
   };
 
   // --- Assets ---
@@ -118,12 +128,16 @@ export function FinancialProvider({ children }: FinancialProviderProps) {
     const newAsset: Asset = {
       id: Date.now(),
       name: "New Asset",
-      amount: 0,
+      amount: 100,
       type: "investment",
       growthRate: 0,
     };
     setAssets((prev) => [...prev, newAsset]);
     return newAsset;
+  };
+
+  const removeAsset = (id: number) => {
+    setAssets((prev) => prev.filter((i) => i.id !== id));
   };
 
   const value: FinancialContextType = {
@@ -140,6 +154,9 @@ export function FinancialProvider({ children }: FinancialProviderProps) {
     updateAsset,
     addAsset,
     removeIncome,
+    removeAsset,
+    removeLiability,
+    removeExpense,
   };
 
   return (

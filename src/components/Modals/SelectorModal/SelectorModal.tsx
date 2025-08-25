@@ -1,44 +1,60 @@
+import { useState } from "react";
 import { useFinancialData } from "../../../contexts/useFinancialData";
-import type { ModalOpenType } from "../../../types/types";
+import { formatCurrency } from "../../../utils/fomatting";
+import { useFinancialDataMap } from "../../../hooks/useFinacialDataMap";
+formatCurrency;
 
 interface SelectorModalProps {
-  modalOpened: ModalOpenType;
-  setSelectedObject: <T extends { id: string }>(value: T) => void;
+  title: string;
+  modalType: "income" | "expense" | "liability" | "asset";
+  setNewSelectedObject: (value: any) => void;
 }
 
 export default function SelectorModal({
-  modalOpened,
-  setSelectedObject,
+  title,
+  modalType,
+  setNewSelectedObject,
 }: SelectorModalProps) {
-  console.log("modalopened", modalOpened.modalTypeSelected);
-
-  const UserFData = useFinancialData();
-  const selectionArray = UserFData[modalOpened.modalTypeSelected];
+  const dataMap = useFinancialDataMap();
+  const { add, items, remove } = dataMap[modalType];
 
   return (
-    <div className="selector-container bg-white  rounded-xl p-4 flex ">
-      <div className="title flex-col items-center justify-center bg-purple-300 text-white rounded-xl p-2">
-        {modalOpened.modalTypeSelected}
+    <div className="flex-col flex gap-4 md:min-w-100 mb-4">
+      <div className="selector bg-white rounded-xl p-4">
+        <div className="title-container flex border-b border-gray-200 gap-2 items-center justify-center p-2 ">
+          <div className="title  flex items-center justify-center">{title}</div>
+          <button
+            type="button"
+            className="bg-blue-200 py-2 px-4 rounded-xl"
+            onClick={() => setNewSelectedObject(add())}
+          >
+            +
+          </button>
+        </div>
+
+        <div className="mapped-items flex gap-2 p-2 cursor-pointer">
+          {items.map((i) => {
+            return (
+              <div key={i.id} className="flex flex-col gap-2 flex-1">
+                <div
+                  onClick={() => setNewSelectedObject(i)}
+                  className="bg-gray-200 p-4 flex-col flex items-center justify-center rounded-xl flex-1"
+                >
+                  <div className="name">{i.name}</div>
+                  <div className="amount">{formatCurrency(i.amount)}</div>
+                  {/* <div className="frequency">{i.frequency}</div> */}
+                </div>
+                <button
+                  className="remove bg-red-200 rounded-xl px-4 py-2 w-full text-xl"
+                  onClick={() => remove(i.id)}
+                >
+                  -
+                </button>
+              </div>
+            );
+          })}
+        </div>
       </div>
-      <ul className="flex-wrap flex-row md:flex-col flex flex-1 p-2 ">
-        {selectionArray.map((i, idx) => {
-          return (
-            <li key={idx} onClick={() => setSelectedObject(i)}>
-              {i.name}
-            </li>
-          );
-        })}
-        {/* <li className="flex-1 flex items-center justify-center ">
-          <div className="source-title flex-1 flex items-center justify-center ">
-            Income Source 1
-          </div>
-        </li>
-        <li className="flex-1 flex items-center justify-center ">
-          <div className="source-title flex-1 flex items-center justify-center">
-            Income Source 2
-          </div>
-        </li> */}
-      </ul>
     </div>
   );
 }

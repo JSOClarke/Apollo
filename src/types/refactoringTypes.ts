@@ -41,6 +41,9 @@ export type SurplusHistory = {
   amount: number;
 };
 // Asset
+export type AssetType = {
+  type: "investment" | "property" | "cash";
+};
 export type Asset = {
   id: number;
   name: string;
@@ -140,8 +143,8 @@ export interface SankeyNode {
 }
 
 export interface SankeyLink {
-  source: number | SankeyNode;
-  target: number | SankeyNode;
+  source: number;
+  target: number;
   value: number;
   color?: string;
 }
