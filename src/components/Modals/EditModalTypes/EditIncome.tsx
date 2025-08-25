@@ -6,22 +6,15 @@ import type { Incomes } from "../../../types/refactoringTypes";
 import { useFinancialData } from "../../../contexts/useFinancialData";
 import type { ModalOpenType } from "../../../types/types";
 import { useState } from "react";
+import { formatCurrency } from "../../../utils/fomatting";
 
-interface EditModalProps {
-  selectedObject: Incomes;
-  setModalOpened: (value: ModalOpenType) => void;
-}
-
-export default function EditIncome({
-  selectedObject,
-  setModalOpened,
-}: EditModalProps) {
+export default function EditIncome() {
   const [newSelectedObject, setNewSelectedObject] = useState<
     Incomes | undefined
   >(undefined);
 
   console.log("selectedObject", newSelectedObject);
-  const { updateIncome, incomes, addIncome } = useFinancialData();
+  const { updateIncome, incomes, addIncome, removeIncome } = useFinancialData();
   const {
     register,
     reset,
@@ -44,30 +37,38 @@ export default function EditIncome({
   return (
     <div className="flex-col flex gap-4">
       <div className="selector bg-white rounded-xl p-4">
-        <div className="title border-b border-gray-200 flex items-center justify-center">
-          Incomes
+        <div className="title-container flex border-b border-gray-200 gap-2 items-center justify-center p-2">
+          <div className="title  flex items-center justify-center">Incomes</div>
+          <button
+            type="button"
+            className="bg-blue-200 py-2 px-4 rounded-xl"
+            onClick={() => setNewSelectedObject(addIncome())}
+          >
+            +
+          </button>
         </div>
-        <div className="mapped-items flex gap-2 p-2">
+
+        <div className="mapped-items flex gap-2 p-2 cursor-pointer">
           {incomes.map((i) => {
             return (
-              <div
-                key={i.id}
-                onClick={() => setNewSelectedObject(i)}
-                className="bg-gray-200 p-4 flex-col items-center justify-center"
-              >
-                <div className="name">{i.name}</div>
-                <div className="amount">{i.amount}</div>
-                <div className="frequency">{i.frequency}</div>
+              <div key={i.id} className="flex flex-col gap-2">
+                <div
+                  onClick={() => setNewSelectedObject(i)}
+                  className="bg-gray-200 p-4 flex-col flex items-center justify-center rounded-xl flex-1"
+                >
+                  <div className="name">{i.name}</div>
+                  <div className="amount">{formatCurrency(i.amount)}</div>
+                  <div className="frequency">{i.frequency}</div>
+                </div>
+                <button
+                  className="remove bg-red-200 rounded-xl px-4 py-2 w-full text-xl"
+                  onClick={() => removeIncome(i.id)}
+                >
+                  -
+                </button>
               </div>
             );
           })}
-          <button
-            type="button"
-            className="bg-blue-200 p-2 rounded-xl"
-            onClick={() => setNewSelectedObject(addIncome())}
-          >
-            Add Income +{" "}
-          </button>
         </div>
       </div>
       {newSelectedObject && (
@@ -101,12 +102,16 @@ export default function EditIncome({
             </div>
             <div className="modal-form-container">
               <label>Frequency</label>
-              <input
-                className="modal-input"
+              <select
+                className="w-full modal-input"
+                id="frequency"
                 {...register("frequency", {
                   required: "Frequency is Required",
                 })}
-              />
+              >
+                <option value="annual">Annually</option>
+                <option value="monthly">Monthly</option>
+              </select>
             </div>
             <div className="modal-form-container">
               <label>Start Year</label>

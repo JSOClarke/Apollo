@@ -1,27 +1,35 @@
 import { useForm } from "react-hook-form";
 import EditLayout from "./EditLayout";
 import { User } from "../../../MockData/mockUserInformation";
+import { useFinancialData } from "../../../contexts/useFinancialData";
 import type { Liability } from "../../../types/refactoringTypes";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-interface EditLiabilityProps {
-  selectedObject: Liability;
-}
-
-export default function EditLiabilities({
-  selectedObject,
-}: EditLiabilityProps) {
-  const { register, reset } = useForm<Liability>({
-    defaultValues: selectedObject,
+export default function EditLiabilities() {
+  const [newSelectedObject, setNewSelectedObject] = useState<
+    Liability | undefined
+  >(undefined);
+  const { updateIncome, incomes, addIncome, removeIncome } = useFinancialData();
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Liability>({
+    defaultValues: newSelectedObject,
   });
-  console.log("selectedObject", selectedObject);
+  const onSubmit = (formData: Incomes) => {
+    const updatedIncome = { ...formData, id: newSelectedObject.id };
+    updateIncome(updatedIncome);
+  };
+
   useEffect(() => {
-    reset(selectedObject);
-  }, [selectedObject, reset]);
+    reset(newSelectedObject);
+  }, [newSelectedObject, reset]);
 
   return (
     <EditLayout>
-      <form action="" className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div className="modal-form-container ">
           <label>Name</label>
           <input

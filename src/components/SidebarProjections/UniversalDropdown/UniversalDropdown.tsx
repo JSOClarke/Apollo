@@ -20,7 +20,7 @@ export default function UniversalDropdown({
   }
   return (
     <div
-      className={`dropdown-container flex-col w-full rounded-xl p-2 ${
+      className={`dropdown-container flex-col w-full rounded-xl p-2  ${
         isHovered && "bg-[#f0f0f0]"
       } ${isDropdownOpen && "bg-[#f0f0f0]"}`}
     >
@@ -28,9 +28,9 @@ export default function UniversalDropdown({
         onClick={() => handleDropdownToggle()}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="title-container flex items-center justify-between w-full"
+        className="title-container flex items-center justify-between w-full cursor-pointer "
       >
-        <div className="title-text text-gray-500">{title}</div>
+        <div className="title-text text-gray-500 ">{title}</div>
         <div className="value-chevron flex">
           {!isDropdownOpen ? (
             <div className="title-value text-gray-500">

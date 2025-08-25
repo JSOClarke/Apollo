@@ -1,4 +1,3 @@
-import type { YearlyProjectionData } from "../../types/refactoringTypes";
 import ListDisplay from "./ListDisplay";
 import UniversalDropdownItem from "./UniversalDropdown/UniversalDropdownItem";
 import { useProjection } from "../../contexts/ProjectionContext";
@@ -85,6 +84,17 @@ export default function Sidebar() {
           <UniversalDropdownItem
             key={idx}
             itemTitle={`${findAssetName(item.fromAssetId)} `}
+            itemValue={item.amount}
+          />
+        )}
+      />
+      <ListDisplay
+        title="Withdrawal History"
+        items={selectedYearProjection?.withdrawalHistory}
+        renderItem={(item, idx) => (
+          <UniversalDropdownItem
+            key={idx}
+            itemTitle={`${findAssetName(item.assetId)} `}
             itemValue={item.amount}
           />
         )}

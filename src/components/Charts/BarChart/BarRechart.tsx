@@ -6,6 +6,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  ReferenceLine,
   type TooltipContentProps,
 } from "recharts";
 
@@ -19,7 +20,7 @@ import CustomChartToolTip from "./customToolTip/CustomChartToolTip";
 import { chartConstants } from "../../../constants/chartConstants";
 
 export default function BarRechart() {
-  const { setYearSelected } = useYearProjectionDetails();
+  const { setYearSelected, yearSelected } = useYearProjectionDetails();
   const projectionData = useProjection();
   const barRadius: [number, number, number, number] = [5, 5, 0, 0];
 
@@ -55,6 +56,7 @@ export default function BarRechart() {
           width={100}
           tickFormatter={(value: number) => `£${value.toLocaleString("en-GB")}`}
         />
+        <ReferenceLine x={yearSelected} strokeDasharray="3 3" stroke="red" />
         <Tooltip
           cursor={false}
           content={(props: TooltipContentProps<number, string>) => (
@@ -62,7 +64,7 @@ export default function BarRechart() {
           )}
         />{" "}
         <Bar
-          dataKey="totalAssets"
+          dataKey={chartConstants[2].key}
           fill={chartConstants[2].color}
           barSize={30}
           stackId={"a"}

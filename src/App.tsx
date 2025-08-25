@@ -1,3 +1,4 @@
+import { ModalProvider } from "./contexts/ModalContext";
 import { ProjectionsProvider } from "./contexts/ProjectionContext";
 import { FinancialProvider } from "./contexts/useFinancialData";
 import { YearProjectionProvider } from "./contexts/YearProjectionDetailsContext";
@@ -9,11 +10,13 @@ function App() {
     <FinancialProvider>
       <ProjectionsProvider>
         <YearProjectionProvider>
-          <div>
-            <Layout>
-              <Home />
-            </Layout>
-          </div>
+          <ModalProvider>
+            <div>
+              <Layout>
+                <Home />
+              </Layout>
+            </div>
+          </ModalProvider>
         </YearProjectionProvider>
       </ProjectionsProvider>
     </FinancialProvider>

@@ -58,5 +58,13 @@ export const User: UserData = {
   ],
 };
 
-export const deficitPriority: Priority[] = [{ assetId: 2 }, { assetId: 1 }]; // savings first then stocks
-export const surplusPriority: Priority[] = [{ assetId: 1 }, { assetId: 2 }]; // stocks first then savings
+export const deficitPriority: Priority[] = [
+  { assetId: 3 },
+  { assetId: 2 },
+  { assetId: 1 },
+]; // savings first then stocks
+export const surplusPriority: Priority[] = [
+  { assetId: 1 },
+  { assetId: 2 },
+  { assetId: 3 },
+]; // stocks first then savings

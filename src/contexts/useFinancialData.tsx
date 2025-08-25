@@ -15,6 +15,7 @@ interface FinancialContextType {
   assets: Asset[];
   updateIncome: (income: Incomes) => void;
   addIncome: () => Incomes;
+  removeIncome: (id: number) => void;
   updateExpense: (expense: Expenses) => void;
   addExpense: () => Expenses;
   updateLiability: (liability: Liability) => void;
@@ -57,6 +58,10 @@ export function FinancialProvider({ children }: FinancialProviderProps) {
     };
     setIncomes((prev) => [...prev, newIncome]);
     return newIncome;
+  };
+
+  const removeIncome = (id: number) => {
+    setIncomes((prev) => prev.filter((i) => i.id !== id));
   };
 
   // --- Expenses ---
@@ -134,6 +139,7 @@ export function FinancialProvider({ children }: FinancialProviderProps) {
     addLiability,
     updateAsset,
     addAsset,
+    removeIncome,
   };
 
   return (

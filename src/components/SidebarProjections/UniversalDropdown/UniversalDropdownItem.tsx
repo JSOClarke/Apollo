@@ -10,9 +10,9 @@ export default function UniversalDropdownItem({
   itemValue,
 }: UniversalDropdownItemProps) {
   return (
-    <div className="dropdown-item-container flex items-center justify-between pl-4">
+    <div className="dropdown-item-container flex items-center justify-between pl-4 ">
       <div className="dropdown-item-title-text text-gray-500">{itemTitle}</div>
-      <div className="dropdown-item-value text-gray-500">
+      <div className="dropdown-item-value text-gray-500 ">
         {formatCurrency(itemValue)}
       </div>
     </div>

@@ -20,13 +20,7 @@ export default function Layout({ children }: LayoutProps) {
     <div className="min-h-screen bg-gray-200 md:flex ">
       <PageNavBar />
       <div className="flex-1 min-w-0 flex-col flex">
-        <ModalNavBar setModalOpened={setModalOpened} />
-        {modalOpened.isModalOpen ? (
-          <EditModal
-            modalOpened={modalOpened}
-            setModalOpened={setModalOpened}
-          />
-        ) : null}
+        <ModalNavBar />
 
         <main className="p-2  flex-1 flex">{children}</main>
       </div>

@@ -34,7 +34,7 @@ export default function EditExpense() {
     <div className="flex flex-col gap-4">
       <div className="selector bg-white rounded-xl p-4">
         <div className="title border-b border-gray-200 flex items-center justify-center">
-          Incomes
+          Expenses
         </div>
         <div className="mapped-items flex gap-2 p-2">
           {expenses.map((i) => {
