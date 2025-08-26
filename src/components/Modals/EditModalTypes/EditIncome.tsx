@@ -27,8 +27,10 @@ export default function EditIncome() {
     defaultValues: newSelectedObject,
   });
   const onSubmit = (formData: Incomes) => {
-    const updatedIncome = { ...formData, id: newSelectedObject.id };
-    updateIncome(updatedIncome);
+    if (newSelectedObject) {
+      const updatedIncome = { ...formData, id: newSelectedObject.id };
+      updateIncome(updatedIncome);
+    }
   };
 
   useEffect(() => {

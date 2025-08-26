@@ -18,8 +18,10 @@ export default function EditAsset() {
     defaultValues: { growthRate: 0.0, yieldRate: 0.0, ...newSelectedObject },
   });
   const onSubmit = (formData: Asset) => {
-    const updatedAsset = { ...formData, id: newSelectedObject.id };
-    updateAsset(updatedAsset);
+    if (newSelectedObject) {
+      const updatedAsset = { ...formData, id: newSelectedObject.id };
+      updateAsset(updatedAsset);
+    }
   };
   console.log("selectedObject", newSelectedObject);
   useEffect(() => {

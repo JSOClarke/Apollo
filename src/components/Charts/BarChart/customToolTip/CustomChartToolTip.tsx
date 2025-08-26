@@ -1,15 +1,20 @@
 import type { TooltipContentProps } from "recharts";
 import type { FlattenedYearlyProjection } from "../../../../types/refactoringTypes";
 import { chartConstants } from "../../../../constants/chartConstants";
+import { useMilestone } from "../../../../contexts/MilestoneContext";
+import { Divide, Milestone } from "lucide-react";
 
 export default function CustomChartToolTip({
   active,
   payload,
   label,
 }: TooltipContentProps<number, string>) {
+  const { milestones } = useMilestone();
   if (!active || !payload || !label) return null;
 
   const yearPayload: FlattenedYearlyProjection = payload[0].payload;
+
+  const milestonesYear = milestones.find((i) => i.year === yearPayload.year);
 
   return (
     <div className="bg-white p-2 rounded-lg shadow-md">
@@ -43,6 +48,15 @@ export default function CustomChartToolTip({
           </p>
         );
       })}
+      {milestonesYear && (
+        <div className="border-t border-gray-200 mt-5 flex items-center gap-2">
+          <div
+            className={`w-4 h-4  rounded-full`}
+            style={{ backgroundColor: milestonesYear.colour }}
+          ></div>
+          {milestonesYear.name}
+        </div>
+      )}
     </div>
   );
 }

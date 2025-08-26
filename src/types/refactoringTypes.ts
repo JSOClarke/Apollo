@@ -1,4 +1,6 @@
 // Income source
+
+import { colourOptions, milestoneTypes } from "../constants/milestoneConstants";
 export type Incomes = {
   id: number;
   name: string;
@@ -72,11 +74,14 @@ export type LiabilityPaymentHistory = {
 };
 
 // Optional milestones or events
+
 export type Milestone = {
   id: number;
   name: string;
   year: number;
-  description?: string;
+  colour: (typeof colourOptions)[number]["hex"];
+  type: typeof milestoneTypes;
+  amount?: number;
 };
 
 export type WithdrawlHistory = {

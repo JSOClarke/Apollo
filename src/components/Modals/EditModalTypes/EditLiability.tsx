@@ -22,8 +22,10 @@ export default function EditLiabilities() {
     defaultValues: newSelectedObject,
   });
   const onSubmit = (formData: Liability) => {
-    const updatedLiability = { ...formData, id: newSelectedObject.id };
-    updateLiability(updatedLiability);
+    if (newSelectedObject) {
+      const updatedLiability = { ...formData, id: newSelectedObject.id };
+      updateLiability(updatedLiability);
+    }
   };
 
   useEffect(() => {

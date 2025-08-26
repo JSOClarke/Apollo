@@ -8,6 +8,7 @@ import {
   ResponsiveContainer,
   ReferenceLine,
   type TooltipContentProps,
+  ReferenceDot,
 } from "recharts";
 
 import type {
@@ -18,6 +19,11 @@ import { useProjection } from "../../../contexts/ProjectionContext";
 import { useYearProjectionDetails } from "../../../contexts/YearProjectionDetailsContext";
 import CustomChartToolTip from "./customToolTip/CustomChartToolTip";
 import { chartConstants } from "../../../constants/chartConstants";
+import { unitMap } from "../../../constants/unitsMap";
+import type { BarRectangleItem } from "recharts/types/cartesian/Bar";
+import { useMilestone } from "../../../contexts/MilestoneContext";
+import { useEffect, useMemo } from "react";
+import useMilestoneReferenceDots from "../../../hooks/useMilestoneReferenceDots";
 
 export default function BarRechart() {
   const { setYearSelected, yearSelected } = useYearProjectionDetails();
@@ -39,9 +45,26 @@ export default function BarRechart() {
     })
   );
 
-  const handleBarClick = (data: YearlyProjectionData) => {
-    setYearSelected(data.year);
+  const tickFormatterFormatter = (value: number) => {
+    if (value >= unitMap.MILLION) {
+      return `£${(value / unitMap.MILLION).toFixed(2)}m`;
+    }
+    if (value >= unitMap.THOUSAND) {
+      return `£${value / unitMap.THOUSAND}k`;
+    }
+
+    return value.toString();
   };
+
+  const handleBarClick = (
+    data: any,
+    index: number,
+    event: React.MouseEvent<SVGElement, MouseEvent>
+  ) => {
+    setYearSelected(data.payload.year);
+  };
+
+  const referenceDots = useMilestoneReferenceDots();
 
   return (
     <ResponsiveContainer width={"100%"} height={"100%"}>
@@ -54,15 +77,17 @@ export default function BarRechart() {
         <XAxis dataKey="year" />
         <YAxis
           width={100}
-          tickFormatter={(value: number) => `£${value.toLocaleString("en-GB")}`}
+          tickFormatter={(value: number) => tickFormatterFormatter(value)}
         />
+
         <ReferenceLine x={yearSelected} strokeDasharray="3 3" stroke="red" />
         <Tooltip
           cursor={false}
           content={(props: TooltipContentProps<number, string>) => (
             <CustomChartToolTip {...props} />
           )}
-        />{" "}
+        />
+
         <Bar
           dataKey={chartConstants[2].key}
           fill={chartConstants[2].color}
@@ -72,6 +97,9 @@ export default function BarRechart() {
           cursor="pointer"
           radius={barRadius}
         />
+        {referenceDots.map((i) => {
+          return i;
+        })}
       </BarChart>
     </ResponsiveContainer>
   );

@@ -1,4 +1,5 @@
-import PageNavBar from "./components/NavigationBar.tsx/PageNavBar";
+// import PageNavBar from "./components/NavigationBar.tsx/PageNavBar";
+import { type ReactNode } from "react";
 import ModalNavBar from "./components/NavigationBar.tsx/ModalNavBar";
 
 interface LayoutProps {

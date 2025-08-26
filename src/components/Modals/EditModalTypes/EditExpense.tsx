@@ -29,8 +29,10 @@ export default function EditExpense() {
     reset(newSelectedObject);
   }, [newSelectedObject, reset]);
   const onSubmit = (formData: Expenses) => {
-    const updatedExpense = { ...formData, id: newSelectedObject.id };
-    updateExpense(updatedExpense);
+    if (newSelectedObject) {
+      const updatedExpense = { ...formData, id: newSelectedObject.id };
+      updateExpense(updatedExpense);
+    }
   };
 
   return (

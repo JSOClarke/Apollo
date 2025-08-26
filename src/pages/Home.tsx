@@ -1,7 +1,8 @@
 import { useState } from "react";
-import ChartOptions from "../components/ChartOptions/ChartOptions";
+import ChartOptions from "../components/ToolBar/ChartOptions/ChartOptions";
 import Sidebar from "../components/SidebarProjections/Sidebar";
 import { rechartsMap } from "../constants/rechartMap";
+import Toolbar from "../components/ToolBar/Toolbar";
 
 export default function Home() {
   const [selectedChartId, setSelectedChartId] = useState<number>(
@@ -14,7 +15,7 @@ export default function Home() {
     <div className="flex flex-col md:flex-row gap-2 flex-1">
       <div className="flex flex-col flex-1 gap-2">
         <div>
-          <ChartOptions
+          <Toolbar
             setSelectedChartId={setSelectedChartId}
             selectedChartId={selectedChartId}
           />

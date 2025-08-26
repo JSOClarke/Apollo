@@ -1,3 +1,4 @@
+import MilestoneProvider from "./contexts/MilestoneContext";
 import { ModalProvider } from "./contexts/ModalContext";
 import { ProjectionsProvider } from "./contexts/ProjectionContext";
 import { FinancialProvider } from "./contexts/useFinancialData";
@@ -11,11 +12,13 @@ function App() {
       <ProjectionsProvider>
         <YearProjectionProvider>
           <ModalProvider>
-            <div>
-              <Layout>
-                <Home />
-              </Layout>
-            </div>
+            <MilestoneProvider>
+              <div>
+                <Layout>
+                  <Home />
+                </Layout>
+              </div>
+            </MilestoneProvider>
           </ModalProvider>
         </YearProjectionProvider>
       </ProjectionsProvider>
