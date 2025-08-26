@@ -56,15 +56,13 @@ export default function MilestoneInput() {
           <label>Type</label>
 
           <select id="colour" {...register("type")}>
-            {
-              typeof milestoneTypes.map((i, idx) => {
-                return (
-                  <option key={idx} value={i}>
-                    {i}
-                  </option>
-                );
-              })
-            }
+            {milestoneTypes.map((i, idx) => {
+              return (
+                <option key={idx} value={i}>
+                  {i}
+                </option>
+              );
+            })}
           </select>
         </div>
         <button type="submit" className="modal-save-button">
