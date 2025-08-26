@@ -80,7 +80,7 @@ export type Milestone = {
   name: string;
   year: number;
   colour: (typeof colourOptions)[number]["hex"];
-  type: typeof milestoneTypes;
+  type: (typeof milestoneTypes)[number]["type"];
   amount?: number;
 };
 

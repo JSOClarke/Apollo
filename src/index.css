@@ -23,3 +23,20 @@
 .modal-select-input {
   @apply w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-300;
 }
+
+.toolbar-container-input {
+  @apply flex items-center gap-2 justify-center;
+}
+.toolbar-input {
+  @apply w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-300;
+}
+.toolbar-label-input {
+  @apply text-gray-600;
+}
+.toolbar-add-button {
+  @apply bg-purple-200 hover:bg-purple-900 text-gray-900 rounded-xl cursor-pointer text-xs px-4 py-2;
+}
+
+.toolbar-select-input {
+  @apply flex border border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-300;
+}

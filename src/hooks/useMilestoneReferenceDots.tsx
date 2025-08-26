@@ -5,9 +5,10 @@ import { ReferenceDot } from "recharts";
 
 export default function useMilestoneReferenceDots() {
   const projectionData = useProjection();
-  const { milestones } = useMilestone();
+  const { milestones, updatedMilestones } = useMilestone();
+
   const referenceDots = useMemo(() => {
-    const baseMilestonesDotMap = milestones.map((i) => {
+    const baseMilestonesDotMap = updatedMilestones.map((i) => {
       const yearData = projectionData.find((e) => e.year === i.year);
       const maxValueY =
         yearData?.assets.reduce((sum, i) => sum + i.amount, 0) || 0;

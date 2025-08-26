@@ -14,4 +14,7 @@ export const colourOptions = [
   { colour: "lime", label: "Lime", hex: "#00FF00" },
 ] as const;
 
-export const milestoneTypes = ["static", "conditional"] as const;
+export const milestoneTypes = [
+  { label: "Static", type: "static", option: 1 },
+  { label: "Conditional", type: "conditional", option: 2 },
+] as const;

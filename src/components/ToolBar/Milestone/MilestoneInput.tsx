@@ -14,35 +14,103 @@ interface MilestoneFormData {
 
 export default function MilestoneInput() {
   const { milestones, addMilestone } = useMilestone();
-  const { register, handleSubmit, reset } = useForm<Milestone>({
-    defaultValues: { name: "100k oddy", year: 2025, colour: "#0000FF" },
-  });
+  const { register, handleSubmit, reset, watch } = useForm<Milestone>();
 
-  const onSubmit = (data: MilestoneFormData) => {
+  const onSubmit = (data: Milestone) => {
     console.log("formData", data);
     const newMilestone: Milestone = { ...data, id: Date.now() };
     addMilestone(newMilestone);
     reset();
   };
+
+  const watchedMiltestoneType = watch("type");
+  console.log("milestone type", watchedMiltestoneType);
+  console.log("milestone type typeof", typeof watchedMiltestoneType);
+
   return (
-    <div className="flex-1 bg-white rounded-xl p-2 flex items-center  gap-2 ">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex gap-2">
-        <div className="flex items-center gap-2">
-          <label>Name</label>
-          <input {...register("name")} type="string" className="modal-input " />
+    <div className="flex-1 bg-white rounded-xl p-5 flex items-center   gap-2 ">
+      <div className="border-r border-gray-200 p-2">Milestone</div>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex gap-2 item-center justify-between"
+      >
+        <div className="toolbar-container-input">
+          <label className="toolbar-label-input">Type</label>
+          <select
+            id="type"
+            {...register("type")}
+            className="toolbar-select-input"
+          >
+            {milestoneTypes.map((i, idx) => {
+              return (
+                <option key={idx} value={i.type}>
+                  {i.label}
+                </option>
+              );
+            })}
+          </select>
         </div>
-        <div className="flex items-center gap-2">
-          <label>Year</label>
+        <div className="toolbar-container-input">
+          <label className="toolbar-label-input">Name</label>
           <input
-            {...register("year", { valueAsNumber: true })}
-            type="number"
-            className="modal-input "
+            {...register("name")}
+            type="string"
+            className="toolbar-input"
           />
         </div>
-        <div className="flex items-center gap-2">
-          <label>Colour</label>
+        {watchedMiltestoneType === "static" && (
+          <div className="toolbar-container-input">
+            <label className="toolbar-label-input">Year</label>
+            <input
+              {...register("year", { valueAsNumber: true })}
+              type="number"
+              className="modal-input "
+            />
+          </div>
+        )}
 
-          <select id="colour" {...register("colour")}>
+        {watchedMiltestoneType === "conditional" ? (
+          <div className="toolbar-container-input">
+            <label className="toolbar-label-input">Amount</label>
+            <input
+              type="text"
+              className="modal-input"
+              {...register("amount", {
+                setValueAs: (value: string) => {
+                  if (!value) return undefined;
+                  const numeric = value.replace(/,/g, "");
+                  return /^\d+$/.test(numeric) ? Number(numeric) : undefined;
+                },
+              })}
+              onInput={(e) => {
+                const target = e.target as HTMLInputElement;
+                const rawValue = target.value.replace(/,/g, "");
+
+                // allow only digits
+                if (!/^\d*$/.test(rawValue)) {
+                  target.value = rawValue.replace(/\D/g, "").toLocaleString();
+                  return;
+                }
+
+                if (!rawValue) {
+                  target.value = "";
+                  return;
+                }
+
+                target.value = Number(rawValue).toLocaleString();
+              }}
+            />
+          </div>
+        ) : null}
+
+        <div className="toolbar-container-input">
+          <label className="toolbar-label-input">Colour</label>
+
+          <select
+            id="colour"
+            {...register("colour")}
+            className="toolbar-select-input"
+          >
             {colourOptions.map((i, idx) => {
               return (
                 <option key={idx} value={i.hex}>
@@ -52,21 +120,9 @@ export default function MilestoneInput() {
             })}
           </select>
         </div>
-        <div className="flex items-center gap-2">
-          <label>Type</label>
 
-          <select id="colour" {...register("type")}>
-            {milestoneTypes.map((i, idx) => {
-              return (
-                <option key={idx} value={i}>
-                  {i}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-        <button type="submit" className="modal-save-button">
-          Add Milestone +
+        <button type="submit" className="toolbar-add-button">
+          +
         </button>
       </form>
     </div>

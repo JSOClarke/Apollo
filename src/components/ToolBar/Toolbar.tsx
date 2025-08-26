@@ -11,7 +11,7 @@ export default function Toolbar({
   setSelectedChartId,
 }: ToolBarProps) {
   return (
-    <div className="flex w-full gap-2">
+    <div className="flex w-full gap-2 h-20 ">
       <MilestoneInput />
 
       <ChartOptions

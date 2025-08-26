@@ -24,7 +24,7 @@ export default function Home() {
           {selectedContent?.element}
         </div>
       </div>
-      <div className="md:min-w-100 flex-shrink-0 yearly-projection-details bg-white rounded-xl p-2 ">
+      <div className="md:min-w-80 flex-shrink-0 yearly-projection-details bg-white rounded-xl p-2 ">
         <Sidebar />
       </div>
     </div>

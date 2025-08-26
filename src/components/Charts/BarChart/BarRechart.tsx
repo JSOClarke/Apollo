@@ -65,6 +65,7 @@ export default function BarRechart() {
   };
 
   const referenceDots = useMilestoneReferenceDots();
+  console.log("milestonesDotMap", referenceDots);
 
   return (
     <ResponsiveContainer width={"100%"} height={"100%"}>
@@ -76,7 +77,7 @@ export default function BarRechart() {
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="year" />
         <YAxis
-          width={100}
+          width={50}
           tickFormatter={(value: number) => tickFormatterFormatter(value)}
         />
 
@@ -97,7 +98,7 @@ export default function BarRechart() {
           cursor="pointer"
           radius={barRadius}
         />
-        {referenceDots.map((i) => {
+        {referenceDots.map((i, idx) => {
           return i;
         })}
       </BarChart>
