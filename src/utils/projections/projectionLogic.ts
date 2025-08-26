@@ -6,6 +6,8 @@ import type {
   GrowthHistory,
   ContributionHistory,
   LiabilityPaymentHistory,
+  Expenses,
+  Incomes,
 } from "../../types/refactoringTypes";
 import {
   surplusPriority,
@@ -31,14 +33,28 @@ export function projectionLogic(
 
   // Filter the incomes/expenses that are active for the current year
 
-  const activeIncomes = incomes.filter(
+  const baseAcitveIncomes = incomes.filter(
     (i) => currentYear >= i.startYear && currentYear <= i.endYear
   );
-  const activeExpenses = expenses.filter(
+  const baseActiveExpenses = expenses.filter(
     (e) => currentYear >= e.startYear && currentYear <= e.endYear
   );
 
   // Scale total income and expenses by fraction for partial years first and possibly last
+  const activeIncomes: Incomes[] = baseAcitveIncomes.map((i) => {
+    if (i.frequency && i.frequency === "monthly") {
+      return { ...i, amount: i.amount * 12 };
+    }
+    return i;
+  });
+
+  const activeExpenses: Expenses[] = baseActiveExpenses.map((i) => {
+    if (i.frequency && i.frequency === "monthly") {
+      return { ...i, amount: i.amount * 12 };
+    }
+    return i;
+  });
+
   const totalIncome = activeIncomes.reduce(
     (sum, i) => sum + i.amount * fractionOfYear,
     0

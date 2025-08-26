@@ -18,6 +18,10 @@ export default function SelectorModal({
   const dataMap = useFinancialDataMap();
   const { add, items, remove } = dataMap[modalType];
 
+  function formatPercentage(value: number) {
+    return `${(value * 100).toFixed(2)}%`;
+  }
+
   return (
     <div className="flex-col flex gap-4 md:min-w-100 mb-4">
       <div className="selector bg-white rounded-xl p-4">
@@ -42,7 +46,23 @@ export default function SelectorModal({
                 >
                   <div className="name">{i.name}</div>
                   <div className="amount">{formatCurrency(i.amount)}</div>
-                  {/* <div className="frequency">{i.frequency}</div> */}
+                  {"frequency" in i && (
+                    <div className="frequency">
+                      {i.frequency.toLocaleUpperCase()}
+                    </div>
+                  )}
+                  {"growthRate" in i && (
+                    <div className="growthRate">
+                      GR:
+                      {formatPercentage(Number(i.growthRate))}
+                    </div>
+                  )}
+                  {"yieldRate" in i && (
+                    <div className="yieldRatew">
+                      YR:
+                      {formatPercentage(Number(i.yieldRate))}
+                    </div>
+                  )}
                 </div>
                 <button
                   className="remove bg-red-200 rounded-xl px-4 py-2 w-full text-xl"
