@@ -24,9 +24,10 @@ export default function MilestoneProvider({
       if (i.type === "conditional" && i.amount !== undefined) {
         const yearData = projectionData.find((e) => {
           const totalAssets = e.assets.reduce((sum, j) => sum + j.amount, 0);
-          return totalAssets >= i.amount;
+
+          return i.amount !== undefined ? totalAssets > i.amount : false;
         });
-        return { ...i, year: yearData?.year };
+        return { ...i, year: yearData?.year ?? 0 };
       }
       return i;
     });
@@ -55,6 +56,7 @@ export default function MilestoneProvider({
 }
 export function useMilestone() {
   const context = useContext(MilestoneContext);
-  if (!context) throw new Error("Blah");
+  if (!context)
+    throw new Error("useMilestone must be used inside MilestoneProvider");
   return context;
 }

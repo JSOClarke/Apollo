@@ -18,7 +18,15 @@ export const User: UserData = {
       frequency: "annual",
       id: 1,
       startYear: 2025,
-      endYear: 2065,
+      endYear: 2064,
+    },
+    {
+      name: "Rent",
+      amount: 15000,
+      frequency: "annual",
+      id: 3,
+      startYear: 2065,
+      endYear: 2085,
     },
     {
       name: "Holiday",

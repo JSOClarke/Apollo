@@ -9,13 +9,13 @@ export default function ChartOptions({
   selectedChartId,
 }: ChartOptionsProps) {
   return (
-    <div className="bg-white rounded-xl flex w-40 p-2">
+    <div className="bg-white rounded-xl flex p-2">
       <select
         name="chart-options"
         id="chart-options"
         value={selectedChartId}
         onChange={(e) => setSelectedChartId(Number(e.target.value))}
-        className="w-full"
+        className="toolbar-select-input"
       >
         {rechartsMap.map((i) => {
           return (

@@ -46,7 +46,9 @@ export function YearProjectionProvider({
 export function useYearProjectionDetails() {
   const context = useContext(YearProjectionDetailsContext);
   if (!context) {
-    throw new Error("Blah");
+    throw new Error(
+      "useYearProjectionDetails must be used inside YearProjectionDetailsContext"
+    );
   }
   return context;
 }
