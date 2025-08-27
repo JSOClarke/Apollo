@@ -14,7 +14,12 @@ interface MilestoneFormData {
 
 export default function MilestoneInput() {
   const { milestones, addMilestone } = useMilestone();
-  const { register, handleSubmit, reset, watch } = useForm<Milestone>();
+  const { register, handleSubmit, reset, watch } = useForm<Milestone>({
+    defaultValues: {
+      colour: "#0000FF",
+      type: "static",
+    },
+  });
 
   const onSubmit = (data: Milestone) => {
     console.log("formData", data);
@@ -53,7 +58,7 @@ export default function MilestoneInput() {
         <div className="toolbar-container-input">
           <label className="toolbar-label-input">Name</label>
           <input
-            {...register("name")}
+            {...register("name", { required: true })}
             type="string"
             className="toolbar-input"
           />
@@ -62,7 +67,7 @@ export default function MilestoneInput() {
           <div className="toolbar-container-input">
             <label className="toolbar-label-input">Year</label>
             <input
-              {...register("year", { valueAsNumber: true })}
+              {...register("year", { valueAsNumber: true, required: true })}
               type="number"
               className="modal-input "
             />
@@ -76,6 +81,7 @@ export default function MilestoneInput() {
               type="text"
               className="modal-input"
               {...register("amount", {
+                required: true,
                 setValueAs: (value: string) => {
                   if (!value) return undefined;
                   const numeric = value.replace(/,/g, "");
@@ -108,7 +114,7 @@ export default function MilestoneInput() {
 
           <select
             id="colour"
-            {...register("colour")}
+            {...register("colour", { required: true })}
             className="toolbar-select-input"
           >
             {colourOptions.map((i, idx) => {
