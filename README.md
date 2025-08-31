@@ -9,6 +9,8 @@ The goal of this project is to provide a **simple, intuitive, and user-friendly 
 ## Features
 
 - Project your finances with ease
+- Compare multiple years between projection plans
+- Add **conditional or static milestones** to track financial goals
 - Export financial data for external tracking
 - Simple and intuitive user interface
 - Lightweight and easy to set up
