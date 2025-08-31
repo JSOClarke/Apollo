@@ -8,16 +8,15 @@ import type {
   LiabilityPaymentHistory,
   Expenses,
   Incomes,
+  Priority,
 } from "../../types/refactoringTypes";
-import {
-  surplusPriority,
-  deficitPriority,
-} from "../../MockData/mockUserInformation";
 
 export function projectionLogic(
   baseLineConditions: BaseLineConditions,
   currentYear: number,
-  fractionOfYear = 1 // defaults to a full year
+  fractionOfYear = 1, // defaults to a full year
+  surplusPriority: Priority[],
+  deficitPriority: Priority[]
 ) {
   const { incomes, expenses, assets, liabilities } = baseLineConditions;
 

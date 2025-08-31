@@ -8,7 +8,15 @@ export const User: UserData = {
       frequency: "annual",
       id: 1,
       startYear: 2025,
-      endYear: 2065,
+      endYear: 2064,
+    },
+    {
+      name: "State Pension",
+      amount: 920,
+      frequency: "monthly",
+      id: 2,
+      startYear: 2065,
+      endYear: 2086,
     },
   ],
   expenses: [
@@ -67,12 +75,13 @@ export const User: UserData = {
 };
 
 export const deficitPriority: Priority[] = [
-  { assetId: 3 },
-  { assetId: 2 },
-  { assetId: 1 },
+  { assetId: 3, assetName: "Savings" },
+
+  { assetId: 2, assetName: "Pension" },
+  { assetId: 1, assetName: "Stocks" },
 ]; // savings first then stocks
 export const surplusPriority: Priority[] = [
-  { assetId: 1 },
-  { assetId: 2 },
-  { assetId: 3 },
+  { assetId: 1, assetName: "Stocks" },
+  { assetId: 2, assetName: "Penison" },
+  { assetId: 3, assetName: "Savings" },
 ]; // stocks first then savings

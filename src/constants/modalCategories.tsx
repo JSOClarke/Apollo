@@ -3,6 +3,7 @@ import EditAsset from "../components/Modals/EditModalTypes/EditAsset";
 import EditExpense from "../components/Modals/EditModalTypes/EditExpense";
 import EditIncome from "../components/Modals/EditModalTypes/EditIncome"; // adjust the path
 import EditLiabilities from "../components/Modals/EditModalTypes/EditLiability";
+import EditSurplus from "../components/Modals/EditModalTypes/EditSurplus";
 
 interface ModalCat {
   name: string;
@@ -25,5 +26,11 @@ export const MODALCATS: ModalCat[] = [
     option: 4,
     userOpt: "liabilities",
     element: <EditLiabilities />,
+  },
+  {
+    name: "Surplus/Deficit Order",
+    option: 4,
+    userOpt: "surplus-deficit-ordering",
+    element: <EditSurplus />,
   },
 ];

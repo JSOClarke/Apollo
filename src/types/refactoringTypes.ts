@@ -22,6 +22,7 @@ export type Expenses = {
 
 export type Priority = {
   assetId: number;
+  assetName: string;
 };
 
 export type ContributionHistory = {

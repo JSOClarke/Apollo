@@ -63,6 +63,11 @@ export default function SelectorModal({
                       {formatPercentage(Number(i.yieldRate))}
                     </div>
                   )}
+                  {"startYear" in i && "endYear" in i && (
+                    <div className="startDate text-purple-500 text-sm">
+                      {i.startYear} - {i.endYear}
+                    </div>
+                  )}
                 </div>
                 <button
                   className="remove bg-red-200 rounded-xl px-4 py-2 w-full text-xl"

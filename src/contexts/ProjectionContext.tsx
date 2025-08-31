@@ -10,11 +10,20 @@ interface ProjectionsProviderProps {
 }
 
 export function ProjectionsProvider({ children }: ProjectionsProviderProps) {
-  const { incomes, expenses, liabilities, assets } = useFinancialData();
+  const { incomes, expenses, liabilities, assets, surplus, deficit } =
+    useFinancialData();
+
+  console.log("surplus", surplus);
 
   const projectionData = useMemo(() => {
-    return calculateProjection({ incomes, expenses, liabilities, assets }, 64);
-  }, [incomes, expenses, assets, liabilities]);
+    return calculateProjection(
+      { incomes, expenses, liabilities, assets },
+      64,
+      undefined,
+      surplus,
+      deficit
+    );
+  }, [incomes, expenses, assets, liabilities, surplus, deficit]);
 
   return (
     <ProjectionContext.Provider value={projectionData}>

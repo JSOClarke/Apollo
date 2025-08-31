@@ -1,5 +1,7 @@
+import type { surplusPriority } from "../../MockData/mockUserInformation";
 import type {
   BaseLineConditions,
+  Priority,
   YearlyProjectionData,
 } from "../../types/refactoringTypes";
 import { projectionLogic } from "./projectionLogic";
@@ -7,7 +9,9 @@ import { projectionLogic } from "./projectionLogic";
 export function calculateProjection(
   baseLineConditions: BaseLineConditions,
   totalYears: number,
-  startDate: Date = new Date() // defaults to today
+  startDate: Date = new Date(), // defaults to today
+  surplusPriority: Priority[],
+  deficitPriority: Priority[]
 ): YearlyProjectionData[] {
   const projections: YearlyProjectionData[] = [];
   const currentBaseline = structuredClone(baseLineConditions);
@@ -26,7 +30,9 @@ export function calculateProjection(
     const result = projectionLogic(
       currentBaseline,
       startYear,
-      fractionFirstYear
+      fractionFirstYear,
+      surplusPriority,
+      deficitPriority
     );
 
     projections.push({
@@ -52,7 +58,13 @@ export function calculateProjection(
   const fullYears = Math.floor(totalYears - fractionFirstYear);
   for (let i = 0; i < fullYears; i++) {
     const year = startYear + yearCounter;
-    const result = projectionLogic(currentBaseline, year, 1);
+    const result = projectionLogic(
+      currentBaseline,
+      year,
+      1,
+      surplusPriority,
+      deficitPriority
+    );
 
     projections.push({
       year,
@@ -77,7 +89,13 @@ export function calculateProjection(
   const fractionLastYear = totalYears % 1;
   if (fractionLastYear > 0) {
     const year = startYear + yearCounter;
-    const result = projectionLogic(currentBaseline, year, fractionLastYear);
+    const result = projectionLogic(
+      currentBaseline,
+      year,
+      fractionLastYear,
+      surplusPriority,
+      deficitPriority
+    );
 
     projections.push({
       year,

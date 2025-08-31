@@ -1,11 +1,22 @@
-import { createContext, type ReactNode, useContext, useState } from "react";
-import { User } from "../MockData/mockUserInformation";
+import {
+  createContext,
+  type ReactNode,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
+import {
+  User,
+  deficitPriority,
+  surplusPriority,
+} from "../MockData/mockUserInformation";
 
-import type {
-  Asset,
-  Expenses,
-  Incomes,
-  Liability,
+import {
+  type Priority,
+  type Asset,
+  type Expenses,
+  type Incomes,
+  type Liability,
 } from "../types/refactoringTypes";
 
 interface FinancialContextType {
@@ -25,6 +36,10 @@ interface FinancialContextType {
   addLiability: () => Liability;
   updateAsset: (asset: Asset) => void;
   addAsset: () => Asset;
+  surplus: Priority[];
+  deficit: Priority[];
+  moveSurplusUpbyId: (id: number) => void;
+  moveDeficitUpbyId: (id: number) => void;
 }
 
 const FinancialContext = createContext<FinancialContextType | undefined>(
@@ -40,6 +55,44 @@ export function FinancialProvider({ children }: FinancialProviderProps) {
   const [expenses, setExpenses] = useState<Expenses[]>(User.expenses);
   const [liabilities, setLiabilities] = useState<Liability[]>(User.liabilities);
   const [assets, setAssets] = useState<Asset[]>(User.assets);
+  const [surplus, setSurplus] = useState<Priority[]>(surplusPriority);
+  const [deficit, setDeficit] = useState<Priority[]>(deficitPriority);
+
+  useEffect(() => {
+    setSurplus((prev) => {
+      // 1️⃣ Keep only priorities that still exist in assets, update their names
+      const updated = prev
+        .map((p) => {
+          const asset = assets.find((a) => a.id === p.assetId);
+          return asset ? { ...p, assetName: asset.name } : null;
+        })
+        .filter(Boolean) as Priority[];
+
+      // 2️⃣ Find new assets not already in surplus
+      const newAssets = assets
+        .filter((a) => !updated.some((p) => p.assetId === a.id))
+        .map((a) => ({ assetId: a.id, assetName: a.name }));
+
+      // 3️⃣ Combine updated + new
+      return [...updated, ...newAssets];
+    });
+  }, [assets]);
+
+  console.log();
+
+  function moveSurplusUpbyId(index: number) {
+    if (index <= 0) return surplus; // already at top
+    const newArr = [...surplus];
+    [newArr[index - 1], newArr[index]] = [newArr[index], newArr[index - 1]];
+    setSurplus(newArr);
+  }
+
+  function moveDeficitUpbyId(index: number) {
+    if (index <= 0) return deficit; // already at top
+    const newArr = [...deficit];
+    [newArr[index - 1], newArr[index]] = [newArr[index], newArr[index - 1]];
+    setDeficit(newArr);
+  }
 
   // --- Income ---
   const updateIncome = (updatedIncome: Incomes) => {
@@ -122,6 +175,11 @@ export function FinancialProvider({ children }: FinancialProviderProps) {
     setAssets((prev) =>
       prev.map((asset) => (asset.id === updatedAsset.id ? updatedAsset : asset))
     );
+    // const newPriority: Priority = {
+    //   assetId: updatedAsset.id,
+    //   assetName: updatedAsset.name,
+    // };
+    // setSurplus((p) => [...p, newPriority]);
   };
 
   const addAsset = () => {
@@ -157,6 +215,10 @@ export function FinancialProvider({ children }: FinancialProviderProps) {
     removeAsset,
     removeLiability,
     removeExpense,
+    moveDeficitUpbyId,
+    moveSurplusUpbyId,
+    surplus,
+    deficit,
   };
 
   return (
