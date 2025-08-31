@@ -1,6 +1,6 @@
-# Apollo Finance
+# Apollo
 
-**Apollo Finance** is an open-source project inspired by **Projection Labs** and **YNAB**.
+**Apollo** is an open-source project inspired by **Projection Labs** and **YNAB**.
 
 The goal of this project is to provide a **simple, intuitive, and user-friendly platform** to project your finances, track spending, and export data for **internal or external reporting**.
 
