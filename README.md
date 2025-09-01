@@ -34,8 +34,8 @@ Make sure you have the following installed:
 1. Clone or download this repository.
 
    ```sh
-   git clone https://github.com/jellyfin/jellyfin-web.git
-   cd jellyfin-web
+   git clone https://github.com/JSOClarke/Apollo.git
+   cd apollo
    ```
 
 2. Install build dependencies in the project directory.
@@ -44,25 +44,10 @@ Make sure you have the following installed:
    npm install
    ```
 
-3. Run the web client with webpack for local development.
+   ``
+
+3. Build the web-app
 
    ```sh
-   npm start
+   npm run build
    ```
-
-4. Build the client with sourcemaps available.
-
-   ```sh
-   npm run build:development
-   ```
-
-## Directory Structure
-
-.
-└── src
-├── apps
-│   ├── dashboard # Admin dashboard app
-│   ├── experimental # New experimental app
-│   ├── stable # Classic (stable) app
-│   └── wizard # Startup wizard app
-├── assets # Static assets
